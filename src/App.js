@@ -3,6 +3,7 @@ import { blue } from "@mui/material/colors";
 import { ThemeProvider } from "@mui/material/styles";
 import NavBar from "./components/Navbar/NavBar";
 import CreateFolderDialog from "./components/CreateFolder/CreateFolderDialog";
+import FileList from "./components/FileList/FileList";
 
 const theme = createTheme({
   palette: {
@@ -18,6 +19,7 @@ function App() {
       <div>
         <NavBar />
         <CreateFolderDialog />
+        <FileList />
       </div>
     </ThemeProvider>
   );

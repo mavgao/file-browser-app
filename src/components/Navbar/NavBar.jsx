@@ -3,12 +3,14 @@ import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import NavMenu from "./NavMenu";
+import BreadcrumbText from "../Breadcrumb/BreadcrumbText";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentPath } from "../../features/FileOperations/folderSlice";
+import { refreshFileList } from "../../features/FileOperations/fileListSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -53,6 +55,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar() {
+  const path = useSelector((state) => {
+    return state.folder.currentPath;
+  });
+
+  const dispatch = useDispatch();
+  function handleClickPath(e, index) {
+    e.preventDefault();
+    const newPath = [...path].slice(0, index + 1);
+    console.log(newPath);
+    dispatch(setCurrentPath(newPath));
+    dispatch(refreshFileList(newPath));
+  }
+  function handleGoBack() {
+    dispatch(setCurrentPath(path.slice(0, -1)));
+    dispatch(refreshFileList(path));
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -63,8 +82,14 @@ export default function NavBar() {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            File Browser App
+            <BreadcrumbText
+              path={path}
+              handleClickPath={handleClickPath}
+              handleGoBack={handleGoBack}
+              rootTitle="Home"
+            />
           </Typography>
+
           <Search>
             <SearchIconWrapper>
               <SearchIcon />

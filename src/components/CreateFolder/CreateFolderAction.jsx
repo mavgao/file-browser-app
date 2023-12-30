@@ -1,7 +1,7 @@
 import { ListItemIcon, MenuItem, Typography } from "@mui/material";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import { useDispatch } from "react-redux";
-import { showCreateFolderDialog } from "../../features/FileOperations/createFolderSlice";
+import { showCreateFolderDialog } from "../../features/FileOperations/folderSlice";
 
 export default function CreateFolderAction({ handleClose }) {
   const dispatch = useDispatch();

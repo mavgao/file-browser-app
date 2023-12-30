@@ -7,18 +7,35 @@ import {
   TextField,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { hideCreateFolderDialog } from "../../features/FileOperations/createFolderSlice";
+import {
+  hideCreateFolderDialog,
+  createNewFolder,
+  setFolderList,
+} from "../../features/FileOperations/folderSlice";
+import { setFileList } from "../../features/FileOperations/fileListSlice";
 
 export default function CreateFolderDialog() {
-  const open = useSelector(
-    (state) => state.createFolder.isCreateFolderDialogOpen
-  );
+  const { open, path } = useSelector((state) => ({
+    open: state.folder.isCreateFolderDialogOpen,
+    path: state.folder.currentPath,
+  }));
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch(hideCreateFolderDialog());
   };
+  const handleSave = (event) => {
+    event.preventDefault();
+    const folderName = event.currentTarget.form.querySelector("input").value;
+    dispatch(createNewFolder(folderName));
+    dispatch(
+      // setFileList({ name: folderName, path: path.join("/"), type: "dir" })
+      setFolderList({ name: folderName, path: path.join("/"), type: "dir" })
+    );
+    handleClose();
+  };
+
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={"sm"}>
       <form>
         <DialogTitle>Create Folder</DialogTitle>
         <DialogContent>
@@ -34,7 +51,7 @@ export default function CreateFolderDialog() {
           <Button onClick={handleClose} color="primary" type="button">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary" type="submit">
+          <Button onClick={handleSave} color="primary" type="submit">
             Save
           </Button>
         </DialogActions>

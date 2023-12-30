@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  fileList: [],
-  loading: false,
-  // 可能还有其他状态，如 fileListFilter
+  fileList: [{ name: "root-folder", path: "/", type: "dir" }],
+  selectedFiles: [],
+  filteredFileList: [],
 };
 
 const fileListSlice = createSlice({
@@ -11,19 +11,30 @@ const fileListSlice = createSlice({
   initialState,
   reducers: {
     createFile: (state, action) => {},
-    setFileList(state, action) {
-      state.fileList = action.payload;
+    setSelectedFile: (state, action) => {
+      const selectedFileExists = state.selectedFiles.some(
+        (f) => f.name === action.payload.name
+      );
+      if (!selectedFileExists) {
+        state.selectedFiles.push(action.payload);
+      }
     },
-    setLoading(state, action) {
-      state.loading = action.payload;
+    setFileList: (state, action) => {
+      state.fileList.push(action.payload);
     },
-    // 如果有其他操作，如过滤等，也可以在这里添加
+    refreshFileList: (state, action) => {
+      state.selectedFiles = [];
+      state.filteredFileList = state.fileList.filter((fl) => {
+        return fl.path === action.payload.join("/");
+      });
+    },
   },
   // extraReducers: (builder) => {
   //   builder.addCase(incrementBy, (state, action) => {});
   // },
 });
 
-export const { setFileList, setLoading } = fileListSlice.actions;
+export const { setSelectedFile, createFile, setFileList, refreshFileList } =
+  fileListSlice.actions;
 
 export default fileListSlice.reducer;
