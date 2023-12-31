@@ -1,8 +1,9 @@
-import { CloudUploadOutlined, MoreVertOutlined } from "@mui/icons-material";
-import { ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
+import { MoreVertOutlined } from "@mui/icons-material";
+import { Menu } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import CreateFolderAction from "../CreateFolder/CreateFolderAction";
+import UploadFileAction from "../ContextMenu/ContextMenuActions/UploadFileAction";
 
 export default function NavMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -24,12 +25,7 @@ export default function NavMenu() {
         onClose={handleClose}
       >
         <CreateFolderAction handleClose={handleClose} />
-        <MenuItem onClick={handleClick}>
-          <ListItemIcon>
-            <CloudUploadOutlined />
-          </ListItemIcon>
-          <Typography variant="inherit">Upload Files</Typography>
-        </MenuItem>
+        <UploadFileAction handleClose={handleClose} />
       </Menu>
     </div>
   );

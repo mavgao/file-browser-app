@@ -63,7 +63,6 @@ export default function NavBar() {
   function handleClickPath(e, index) {
     e.preventDefault();
     const newPath = [...path].slice(0, index + 1);
-    console.log(newPath);
     dispatch(setCurrentPath(newPath));
     dispatch(refreshFileList(newPath));
   }

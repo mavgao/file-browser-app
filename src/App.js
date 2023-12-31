@@ -4,6 +4,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import NavBar from "./components/Navbar/NavBar";
 import CreateFolderDialog from "./components/CreateFolder/CreateFolderDialog";
 import FileList from "./components/FileList/FileList";
+import ContextMenu from "./components/ContextMenu/ContextMenu";
+import UploadFileDialog from "./components/UploadFile/UploadFileDialog";
 
 const theme = createTheme({
   palette: {
@@ -19,7 +21,9 @@ function App() {
       <div>
         <NavBar />
         <CreateFolderDialog />
+        <UploadFileDialog />
         <FileList />
+        <ContextMenu />
       </div>
     </ThemeProvider>
   );

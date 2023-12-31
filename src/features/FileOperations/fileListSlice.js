@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  // fileList: { "root-folder": [] },
   fileList: [{ name: "root-folder", path: "/", type: "dir" }],
   selectedFiles: [],
   filteredFileList: [],

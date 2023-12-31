@@ -12,7 +12,6 @@ import {
   createNewFolder,
   setFolderList,
 } from "../../features/FileOperations/folderSlice";
-import { setFileList } from "../../features/FileOperations/fileListSlice";
 
 export default function CreateFolderDialog() {
   const { open, path } = useSelector((state) => ({

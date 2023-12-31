@@ -37,21 +37,19 @@ export const createFolderSlice = createSlice({
     },
     setFolderList: (state, action) => {
       const path = action.payload.path;
-      state.folders[path].push({
-        name: action.payload.name,
-        type: action.payload.type,
-      });
+      if (path) {
+        state.folders[path].push({
+          name: action.payload.name,
+          type: action.payload.type,
+        });
+      }
     },
     refreshFolderList: (state, action) => {
       state.selectedFolders = [];
       const newPath = action.payload.join("/");
-      state.selectedFolders = [];
       state.filteredFolders = state.folders[newPath].filter((folder) => {
         return Object.keys(folder) === newPath;
       });
-    },
-    navigateToDir: (state, action) => {
-      state.currentPath = [...state.currentPath, action.payload];
     },
   },
 });
@@ -61,7 +59,6 @@ export const {
   hideCreateFolderDialog,
   createNewFolder,
   setCurrentPath,
-  navigateToDir,
   setSelectedFolder,
   refreshFolderList,
   setFolderList,
