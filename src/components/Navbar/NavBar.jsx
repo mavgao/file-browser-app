@@ -9,7 +9,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import NavMenu from "./NavMenu";
 import BreadcrumbText from "../Breadcrumb/BreadcrumbText";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPath } from "../../features/FileOperations/folderSlice";
+import {
+  filterFileList,
+  setCurrentPath,
+} from "../../features/FileOperations/folderSlice";
 import { refreshFileList } from "../../features/FileOperations/fileListSlice";
 
 const Search = styled("div")(({ theme }) => ({
@@ -66,6 +69,11 @@ export default function NavBar() {
     dispatch(setCurrentPath(newPath));
     dispatch(refreshFileList(newPath));
   }
+  const handleChange = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    dispatch(filterFileList({ value: event.target.value, path: path }));
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -91,6 +99,7 @@ export default function NavBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onChange={handleChange}
             />
           </Search>
           <NavMenu />

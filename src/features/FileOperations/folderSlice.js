@@ -80,6 +80,19 @@ export const createFolderSlice = createSlice({
       const { selectedFile, prevPath } = action.payload;
       state.folders[prevPath].push(selectedFile[0]);
     },
+    removeItem: (state, action) => {
+      const { path, selectedFile } = action.payload;
+      const index = state.folders[path].findIndex(
+        (f) => f.name === selectedFile[0].name
+      );
+      state.folders[path].splice(index, 1);
+    },
+    filterFileList: (state, action) => {
+      const { value, path } = action.payload;
+      state.filteredFolders = state.folders[path.join("/")].filter((f) => {
+        return f.name.includes(value);
+      });
+    },
   },
 });
 
@@ -93,6 +106,8 @@ export const {
   setFolderList,
   renameFolderList,
   copyItem,
+  removeItem,
+  filterFileList,
 } = createFolderSlice.actions;
 
 export default createFolderSlice.reducer;

@@ -3,6 +3,7 @@ import CopyAction from "./ContextMenuActions/CopyAction";
 import RenameAction from "./ContextMenuActions/RenameAction";
 import { useDispatch, useSelector } from "react-redux";
 import { setContextMenuVisible } from "../../features/FileOperations/contextMenuSlice";
+import RemoveAction from "./ContextMenuActions/RemoveAction";
 
 export default function ContextMenu() {
   const { open, position, path } = useSelector((state) => ({
@@ -32,6 +33,7 @@ export default function ContextMenu() {
         <div>
           <CopyAction handleClose={handleClose}></CopyAction>
           <RenameAction handleClose={handleClose}></RenameAction>
+          <RemoveAction handleClose={handleClose}></RemoveAction>
         </div>
       )}
     </Menu>

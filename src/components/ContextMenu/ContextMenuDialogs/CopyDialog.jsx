@@ -8,27 +8,27 @@ import {
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useDispatch, useSelector } from "react-redux";
 import { setCopyDialogVisible } from "../../../features/FileOperations/contextMenuSlice";
-import { refreshFileList } from "../../../features/FileOperations/fileListSlice";
 import { copyItem } from "../../../features/FileOperations/folderSlice";
+import { useEffect, useState } from "react";
 
 export default function CopyDialog() {
   const open = useSelector((state) => state.contextMenu.copyDialogVisible);
-  const path = useSelector((state) => state.folder.currentPath);
+  let path = useSelector((state) => state.folder.currentPath);
+  const [lastPath, setLastPath] = useState(path);
+  useEffect(() => {
+    setLastPath(path);
+  }, [path]);
   const selectedFile = useSelector((state) => state.folder.selectedFolders);
-  const folders = useSelector((state) => {
-    return state.folder.folders;
-  });
-  let prevPath = path.slice(0, -1);
-  function handleGoBack() {
-    prevPath = prevPath.slice(0, -1);
-  }
+  const handleGoBack = () => {
+    setLastPath((prevPath) => prevPath.slice(0, -1));
+  };
   const dispatch = useDispatch();
   const handleSave = (event) => {
     event.preventDefault();
     dispatch(
       copyItem({
         selectedFile: selectedFile,
-        prevPath: prevPath.join("/"),
+        prevPath: path.slice(0, -1).join("/"),
       })
     );
     handleClose();
@@ -47,9 +47,10 @@ export default function CopyDialog() {
     >
       <form>
         <DialogTitle id="form-dialog-copy">
-          Copy files to <small style={{ color: "grey" }}>{prevPath}</small>
+          Copy files to{" "}
+          <small style={{ color: "grey" }}>{lastPath.join("/")}</small>
         </DialogTitle>
-        <DialogContent>{/* <FileListSublist /> */}</DialogContent>
+        {/* <DialogContent><FileListSublist /></DialogContent> */}
         <DialogActions>
           <Button
             onClick={handleGoBack}
