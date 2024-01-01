@@ -66,10 +66,6 @@ export default function NavBar() {
     dispatch(setCurrentPath(newPath));
     dispatch(refreshFileList(newPath));
   }
-  function handleGoBack() {
-    dispatch(setCurrentPath(path.slice(0, -1)));
-    dispatch(refreshFileList(path));
-  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -84,7 +80,6 @@ export default function NavBar() {
             <BreadcrumbText
               path={path}
               handleClickPath={handleClickPath}
-              handleGoBack={handleGoBack}
               rootTitle="Home"
             />
           </Typography>

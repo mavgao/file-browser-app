@@ -28,7 +28,7 @@ export default function File({ type, name }) {
   const dispatch = useDispatch();
   function handleClick(event) {
     event.stopPropagation();
-    dispatch(setSelectedFolder({ type: type, name: name }));
+    dispatch(setSelectedFolder({ name: name, type: type }));
   }
   function handleDoubleClick() {
     const newPath = [...path, name];
@@ -40,8 +40,8 @@ export default function File({ type, name }) {
     event.stopPropagation();
     const x = event.clientX;
     const y = event.clientY;
-    dispatch(setSelectedFolder({ type: type, name: name }));
-    dispatch(setContextMenuVisible({ type: type, name: name }));
+    dispatch(setSelectedFolder({ name: name, type: type }));
+    dispatch(setContextMenuVisible(true));
     dispatch(setContextMenuPosition([x, y]));
   }
 

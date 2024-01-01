@@ -1,9 +1,17 @@
 import WrapTextIcon from "@mui/icons-material/WrapText";
 import { ListItemIcon, MenuItem, Typography } from "@mui/material";
+import { setRenameDialogVisible } from "../../../features/FileOperations/contextMenuSlice";
+import { useDispatch } from "react-redux";
 
-export default function RenameAction({ handleClick, selectedFiles }) {
+export default function RenameAction({ handleClose }) {
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    dispatch(setRenameDialogVisible(true));
+    handleClose();
+  };
+
   return (
-    <MenuItem onClick={(e) => handleClick(e, selectedFiles)}>
+    <MenuItem onClick={handleClick}>
       <ListItemIcon>
         <WrapTextIcon />
       </ListItemIcon>

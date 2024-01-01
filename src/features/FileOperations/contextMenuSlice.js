@@ -4,15 +4,14 @@ const initialState = {
   contextMenuVisible: false,
   contextMenuPosition: [],
   uploadFileDialogVisible: false,
+  renameDialogVisible: false,
+  copyDialogVisible: false,
 };
 
 const contextMenuSlice = createSlice({
   name: "contextMenu",
   initialState,
   reducers: {
-    hideContextMenu: (state) => {
-      state.contextMenuVisible = false;
-    },
     setContextMenuVisible: (state, action) => {
       state.contextMenuVisible = !!action.payload;
     },
@@ -20,20 +19,23 @@ const contextMenuSlice = createSlice({
       state.contextMenuPosition = action.payload;
     },
     setUploadFileDialogVisible: (state, action) => {
-      state.uploadFileDialogVisible = true;
+      state.uploadFileDialogVisible = !!action.payload;
     },
-    hideUploadFileDialog: (state, action) => {
-      state.uploadFileDialogVisible = false;
+    setRenameDialogVisible: (state, action) => {
+      state.renameDialogVisible = !!action.payload;
+    },
+    setCopyDialogVisible: (state, action) => {
+      state.copyDialogVisible = !!action.payload;
     },
   },
 });
 
 export const {
-  hideContextMenu,
   setContextMenuVisible,
   setContextMenuPosition,
   setUploadFileDialogVisible,
-  hideUploadFileDialog,
+  setRenameDialogVisible,
+  setCopyDialogVisible,
 } = contextMenuSlice.actions;
 
 export default contextMenuSlice.reducer;

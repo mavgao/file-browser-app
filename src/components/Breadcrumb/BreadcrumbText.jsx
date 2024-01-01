@@ -11,10 +11,9 @@ export default function BreadcrumbText({
   const separator = <span>&gt;</span>;
   const rootPath = (
     <span onClick={(e) => handleClickPath(e, -1)} data-index={0}>
-      {rootTitle} {path.length ? separator : ""}
+      {rootTitle} {path.length >= 1 ? separator : ""}
     </span>
   );
-  const lastPath = [...path].pop() || rootTitle;
   const directories = path.map((dir, index) => {
     return (
       <span

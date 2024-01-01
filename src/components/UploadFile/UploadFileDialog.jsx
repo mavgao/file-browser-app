@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import FileUploader from "./FileUploader";
 import { useDispatch, useSelector } from "react-redux";
-import { hideUploadFileDialog } from "../../features/FileOperations/contextMenuSlice";
+import { setUploadFileDialogVisible } from "../../features/FileOperations/contextMenuSlice";
 import { setFolderList } from "../../features/FileOperations/folderSlice";
 import { refreshFileList } from "../../features/FileOperations/fileListSlice";
 
@@ -18,16 +18,18 @@ export default function UploadFileDialog() {
   }));
   const dispatch = useDispatch();
   const handleClose = () => {
-    dispatch(hideUploadFileDialog());
+    dispatch(setUploadFileDialogVisible(false));
   };
   const handleUpload = (event) => {
     event.preventDefault();
     const files =
       event.currentTarget.form.querySelector("input[type=file]").files;
     const file = files[0];
-    dispatch(setFolderList({ name: file.name, type: file.type, path: path }));
+    dispatch(
+      setFolderList({ name: file.name, type: file.type, path: path.join("/") })
+    );
     dispatch(refreshFileList(path));
-    dispatch(hideUploadFileDialog());
+    dispatch(setUploadFileDialogVisible(false));
   };
   //   const handleSelectedFiles = (event) => {
   //     dispatch(

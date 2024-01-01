@@ -2,18 +2,18 @@ import { Menu } from "@mui/material";
 import CopyAction from "./ContextMenuActions/CopyAction";
 import RenameAction from "./ContextMenuActions/RenameAction";
 import { useDispatch, useSelector } from "react-redux";
-import { hideContextMenu } from "../../features/FileOperations/contextMenuSlice";
+import { setContextMenuVisible } from "../../features/FileOperations/contextMenuSlice";
 
 export default function ContextMenu() {
-  const { open, position } = useSelector((state) => ({
+  const { open, position, path } = useSelector((state) => ({
     open: state.contextMenu.contextMenuVisible,
     position: state.contextMenu.contextMenuPosition,
+    path: state.folder.currentPath,
   }));
   const dispatch = useDispatch();
   function handleClose() {
-    dispatch(hideContextMenu());
+    dispatch(setContextMenuVisible(false));
   }
-  function handleClick() {}
 
   return (
     <Menu
@@ -25,10 +25,15 @@ export default function ContextMenu() {
       }}
       open={open}
       onClose={handleClose}
-      handleClick={handleClick}
     >
-      <CopyAction></CopyAction>
-      <RenameAction></RenameAction>
+      {path.join("/") === "/" ? (
+        <RenameAction handleClose={handleClose}></RenameAction>
+      ) : (
+        <div>
+          <CopyAction handleClose={handleClose}></CopyAction>
+          <RenameAction handleClose={handleClose}></RenameAction>
+        </div>
+      )}
     </Menu>
   );
 }

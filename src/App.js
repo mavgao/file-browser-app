@@ -6,6 +6,8 @@ import CreateFolderDialog from "./components/CreateFolder/CreateFolderDialog";
 import FileList from "./components/FileList/FileList";
 import ContextMenu from "./components/ContextMenu/ContextMenu";
 import UploadFileDialog from "./components/UploadFile/UploadFileDialog";
+import RenameDialog from "./components/ContextMenu/ContextMenuDialogs/RenameDialog";
+import CopyDialog from "./components/ContextMenu/ContextMenuDialogs/CopyDialog";
 
 const theme = createTheme({
   palette: {
@@ -22,6 +24,8 @@ function App() {
         <NavBar />
         <CreateFolderDialog />
         <UploadFileDialog />
+        <RenameDialog />
+        <CopyDialog />
         <FileList />
         <ContextMenu />
       </div>

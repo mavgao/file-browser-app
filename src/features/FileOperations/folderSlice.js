@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isCreateFolderDialogOpen: false,
-  folders: { "root-folder": [] },
+  folders: { "/": [{ name: "root-folder", type: "dir" }], "root-folder": [] },
   selectedFolders: [],
   filteredFolders: [],
-  currentPath: [],
+  currentPath: ["/"],
 };
 
 export const createFolderSlice = createSlice({
@@ -25,7 +25,9 @@ export const createFolderSlice = createSlice({
       }
     },
     setCurrentPath: (state, action) => {
-      state.currentPath = action.payload;
+      const path = action.payload;
+      const newPath = path.length ? path.filter((path) => path !== "/") : ["/"];
+      state.currentPath = newPath;
     },
     setSelectedFolder: (state, action) => {
       const selectedFolderExists = state.selectedFolders.some(
@@ -44,12 +46,39 @@ export const createFolderSlice = createSlice({
         });
       }
     },
+    renameFolderList: (state, action) => {
+      let { path, newPath, originalName, newName } = action.payload;
+      let originalPath = path + "/" + originalName;
+      if (path && state.folders[path]) {
+        const files = state.folders[path];
+        const fileToUpdate = files.find((file) => {
+          return file.name === originalName;
+        });
+        if (fileToUpdate) {
+          fileToUpdate.name = newName;
+        }
+        state.folders[path] = files;
+        if (newPath.startsWith("/")) {
+          originalPath = originalPath.slice(2);
+          newPath = newPath.slice(2);
+        }
+        state.folders[newPath] = state.folders[originalPath];
+        delete state.folders[originalPath];
+      }
+    },
     refreshFolderList: (state, action) => {
       state.selectedFolders = [];
-      const newPath = action.payload.join("/");
+      let newPath = action.payload.join("/");
+      if (newPath.startsWith("/")) {
+        newPath = newPath.slice(2);
+      }
       state.filteredFolders = state.folders[newPath].filter((folder) => {
         return Object.keys(folder) === newPath;
       });
+    },
+    copyItem: (state, action) => {
+      const { selectedFile, prevPath } = action.payload;
+      state.folders[prevPath].push(selectedFile[0]);
     },
   },
 });
@@ -62,6 +91,8 @@ export const {
   setSelectedFolder,
   refreshFolderList,
   setFolderList,
+  renameFolderList,
+  copyItem,
 } = createFolderSlice.actions;
 
 export default createFolderSlice.reducer;
